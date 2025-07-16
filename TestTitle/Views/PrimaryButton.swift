@@ -13,18 +13,18 @@ enum PrimaryButtonType {
     var backgroundColor: Color {
         switch self {
         case .light:
-            return .buttonSurfacePrimary
-        case .dark:
             return .buttonSurfaceDarkMode
+        case .dark:
+            return .buttonSurfacePrimary
         }
     }
     
     var titleColor: Color {
         switch self {
         case .light:
-            return .textDarkMode
-        case .dark:
             return .textPrimary
+        case .dark:
+            return .textDarkMode
         }
     }
 }
