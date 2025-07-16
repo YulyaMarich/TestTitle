@@ -10,30 +10,40 @@ import ComposableArchitecture
 
 @Reducer
 struct IntroFeature {
-    
     @ObservableState
     struct State: Equatable {
-        @Presents var quiz: QuizFeature.State?
+        var path = StackState<Path.State>()
     }
     
-    enum Action: Equatable {
+    enum Action {
         case takeQuizTapped
-        case quiz(PresentationAction<QuizFeature.Action>)
+        case path(StackAction<Path.State, Path.Action>)
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .takeQuizTapped:
-                state.quiz = QuizFeature.State()
+                state.path.append(.quiz(.init(step: .stylistFocus)))
                 return .none
                 
-            case .quiz:
+            case .path(.element(id: _, action: .quiz(.nextTapped))):
+                if let current = state.path.last?.quiz?.step,
+                   let next = current.next {
+                    state.path.append(.quiz(.init(step: next)))
+                }
+                return .none
+            case .path:
                 return .none
             }
         }
-        .ifLet(\.$quiz, action: \.quiz) {
-            QuizFeature()
-        }
+        .forEach(\.path, action: \.path)
+    }
+}
+
+extension IntroFeature {
+    @Reducer(state: .equatable)
+    public enum Path {
+        case quiz(QuizFeature)
     }
 }

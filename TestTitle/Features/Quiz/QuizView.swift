@@ -9,11 +9,15 @@ import SwiftUI
 import ComposableArchitecture
 
 struct QuizView: View {
-    var store: StoreOf<QuizFeature>
-    
+    @ComposableArchitecture.Bindable var store: StoreOf<QuizFeature>
+
     var body: some View {
-        Text("Quiz Screen")
-            .font(.largeTitle)
-            .padding()
+        WithPerceptionTracking {
+            VStack(spacing: 20) {
+                Text(store.step.navigationTitle)
+                    .font(.largeTitle)
+                    .padding()
+            }
+        }
     }
 }

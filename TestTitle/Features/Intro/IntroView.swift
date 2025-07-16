@@ -23,44 +23,50 @@ struct IntroUIConfiguration {
 }
 
 struct IntroView: View {
-    let store: StoreOf<IntroFeature>
+    @Perception.Bindable var store: StoreOf<IntroFeature>
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Image("introBackground")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                    .overlay(backgroundGradient)
-                
-                VStack {
-                    Spacer()
+        WithPerceptionTracking {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                ZStack {
+                    Image("introBackground")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .overlay(backgroundGradient)
                     
-                    Text("Online Personal \nStyling. \nOutfits for \nEvery Woman.")
-                        .multilineTextAlignment(.leading)
-                        .font(.kaiseiTokumin(size: IntroUIConfiguration.titleFontSize))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(.white)
-                        .padding(.bottom, IntroUIConfiguration.bottomTextPadding)
-                    
-                    PrimaryButton(
-                        title: "Take a quiz",
-                        buttonType: .light,
-                        action: {
-                            store.send(.takeQuizTapped)
-                        }
-                    )
-                    .frame(height: IntroUIConfiguration.buttonHeight)
-                    .padding(.bottom, IntroUIConfiguration.bottomButtonPadding)
-                    
+                    VStack {
+                        Spacer()
+                        
+                        Text("Online Personal \nStyling. \nOutfits for \nEvery Woman.")
+                            .multilineTextAlignment(.leading)
+                            .font(.kaiseiTokumin(size: IntroUIConfiguration.titleFontSize))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.white)
+                            .padding(.bottom, IntroUIConfiguration.bottomTextPadding)
+                        
+                        PrimaryButton(
+                            title: "Take a quiz",
+                            buttonType: .light,
+                            action: {
+                                store.send(.takeQuizTapped)
+                            }
+                        )
+                        .frame(height: IntroUIConfiguration.buttonHeight)
+                        .padding(.bottom, IntroUIConfiguration.bottomButtonPadding)
+                        
+                    }
+                    .padding(.horizontal, IntroUIConfiguration.horizontalPadding)
                 }
-                .padding(.horizontal, IntroUIConfiguration.horizontalPadding)
+            } destination: { store in
+                switch store.case {
+                case .quiz:
+                    if let store = store.scope(state: \.quiz, action: \.quiz) {
+                        QuizView(store: store)
+                    }
+                }
             }
-            .navigationDestination(
-                store: store.scope(state: \.$quiz, action: \.quiz),
-                destination: { QuizView(store: $0) }
-            )
+            
         }
     }
     

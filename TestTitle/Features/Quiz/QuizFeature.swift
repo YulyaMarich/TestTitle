@@ -7,18 +7,46 @@
 
 import ComposableArchitecture
 
+enum QuizViewStep: Equatable, Identifiable {
+    case stylistFocus
+    case style
+    case colors
+    
+    var id: Self { self }
+    
+    var navigationTitle: String {
+        switch self {
+        case .stylistFocus: return "Lifestyle & Interests"
+        case .style: return "Style preferences"
+        case .colors: return "Color preferences"
+        }
+    }
+    
+    var next: QuizViewStep? {
+        switch self {
+        case .stylistFocus: return .style
+        case .style: return .colors
+        case .colors: return nil
+        }
+    }
+}
+
 @Reducer
 struct QuizFeature {
-    
     @ObservableState
-    struct State: Equatable {}
+    struct State: Equatable {
+        var step: QuizViewStep
+    }
     
-    enum Action: Equatable {}
+    enum Action: Equatable {
+        case nextTapped
+    }
     
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
-            default: return .none
+            case .nextTapped:
+                return .none
             }
         }
     }
