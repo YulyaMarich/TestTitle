@@ -12,12 +12,12 @@ import Foundation
 final class MockQuizServiceImpl: QuizService {
     func fetchQuiz() async throws -> [QuizStep] {
         try await Task.sleep(nanoseconds: 500_000_000)
-
+        
         return [
             QuizStep(
                 id: 1,
                 type: "stylist_focus",
-                selectionMode: .multi,
+                selectionMode: .multiple,
                 title: "What’d you like our stylists to focus on?",
                 subtitle: "We offer services via live-chat mode.",
                 options: [
@@ -46,7 +46,7 @@ final class MockQuizServiceImpl: QuizService {
             QuizStep(
                 id: 3,
                 type: "colors",
-                selectionMode: .multi,
+                selectionMode: .multiple,
                 title: "Choose favourite colors",
                 subtitle: nil,
                 options: [

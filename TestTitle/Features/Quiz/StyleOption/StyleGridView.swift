@@ -15,7 +15,7 @@ struct StyleOption: Identifiable, Equatable {
 
 struct StyleGridView: View {
     let options: [StyleOption]
-    let selectedID: String?
+    let selectedIDs: Set<String>
     let onTap: (String) -> Void
     
     private let columns = [
@@ -27,7 +27,7 @@ struct StyleGridView: View {
         LazyVGrid(columns: columns, spacing: 12) {
             ForEach(options) { option in
                 StyleOptionView(
-                    isSelected: option.id == selectedID,
+                    isSelected: selectedIDs.contains(option.id),
                     imageURL: option.imageURL,
                     title: option.title,
                     onTap: {

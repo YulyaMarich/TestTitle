@@ -36,15 +36,19 @@ struct QuizFeature {
             steps[currentStepIndex]
         }
         
-        var isStepValid: Bool {
-            switch step {
-            case .stylistFocus:
-                return !selectedStylistFocusIDs.isEmpty
-            case .style:
-                return selectedStyleID != nil
-            case .colors:
-                return !selectedColorIDs.isEmpty
+        var currentStepModel: QuizStep? {
+            quizSteps[safe: currentStepIndex]
+        }
+        
+        var selectionMode: SelectionMode {
+            guard let mode = currentStepModel?.selectionMode else {
+                return .single
             }
+            return mode
+        }
+        
+        var isStepValid: Bool {
+            !selectedOptionIDs.isEmpty
         }
         
         var isLastStep: Bool {
@@ -55,14 +59,8 @@ struct QuizFeature {
             currentStepIndex == 0
         }
         
-        var selectedStylistFocusIDs: Set<String> = []
-        var stylistFocusOptions: [StylistFocusOption] = []
-        
-        var selectedStyleID: String?
-        var styleOptions: [StyleOption] = []
-        
-        var selectedColorIDs: Set<String> = []
-        var colorOptions: [ColorOption] = []
+        var selectedOptionIDs: Set<String> = []
+        var currentOptions: [QuizOption] = []
         
         var stepMetadata: [QuizViewStep: QuizStepMetadata] = [:]
         
@@ -74,19 +72,8 @@ struct QuizFeature {
             })
             
             if let step = quizSteps[safe: currentStepIndex] {
-                switch step.viewStep {
-                case .stylistFocus:
-                    self.stylistFocusOptions = step.stylistFocusOptions ?? []
-                case .style:
-                    self.styleOptions = step.styleOptions ?? []
-                case .colors:
-                    self.colorOptions = step.colorOptions ?? []
-                }
+                self.currentOptions = step.options
             }
-        }
-        
-        var currentStepModel: QuizStep? {
-            quizSteps[safe: currentStepIndex]
         }
     }
     
@@ -95,40 +82,61 @@ struct QuizFeature {
         case finishTapped
         case backTapped
         case goToNextStep([QuizViewStep], Int)
-        case stylistFocusOptionTapped(String)
-        case styleOptionTapped(String)
-        case colorOptionTapped(String)
+        case optionTapped(String)
     }
+    
+    @Dependency(\.quizAnswerStorage) var quizAnswerStorage
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .finishTapped:
+                saveAnswer(state: &state)
+                return .none
+                
             case .nextTapped:
+                saveAnswer(state: &state)
                 return .send(.goToNextStep(state.steps, state.currentStepIndex))
                 
-            case let .stylistFocusOptionTapped(id):
-                if state.selectedStylistFocusIDs.contains(id) {
-                    state.selectedStylistFocusIDs.remove(id)
-                } else {
-                    state.selectedStylistFocusIDs.insert(id)
+            case .goToNextStep:
+                return .none
+                
+            case .backTapped:
+                state.currentStepIndex -= 1
+                if let step = state.quizSteps[safe: state.currentStepIndex] {
+                    state.currentOptions = step.options
+                    state.selectedOptionIDs = []
                 }
                 return .none
                 
-            case let .styleOptionTapped(id):
-                state.selectedStyleID = id
-                return .none
-                
-            case let .colorOptionTapped(id):
-                if state.selectedColorIDs.contains(id) {
-                    state.selectedColorIDs.remove(id)
-                } else {
-                    state.selectedColorIDs.insert(id)
+            case let .optionTapped(id):
+                switch state.selectionMode {
+                case .single:
+                    state.selectedOptionIDs = [id]
+                case .multiple:
+                    if state.selectedOptionIDs.contains(id) {
+                        state.selectedOptionIDs.remove(id)
+                    } else {
+                        state.selectedOptionIDs.insert(id)
+                    }
                 }
-                return .none
-                
-            case .backTapped, .goToNextStep, .finishTapped:
                 return .none
             }
+        }
+    }
+    
+    private func saveAnswer(state: inout State) {
+        guard let step = state.currentStepModel else { return }
+        
+        let answer = QuizAnswer(
+            questionID: step.id,
+            selectedOptionIDs: state.selectedOptionIDs.compactMap { Int($0) }
+        )
+        
+        do {
+            try quizAnswerStorage.save(answer)
+        } catch {
+            print("❌ Save error: \(error)")
         }
     }
 }

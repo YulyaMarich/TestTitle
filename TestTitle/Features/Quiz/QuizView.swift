@@ -21,7 +21,6 @@ struct QuizView: View {
                         Spacer()
                         content
                         Spacer()
-                        
                     }
                     .padding(.bottom, 10)
                     .padding(.horizontal, 20)
@@ -87,27 +86,21 @@ struct QuizView: View {
             switch store.state.step {
             case .stylistFocus:
                 StylistFocusListView(
-                    options: store.stylistFocusOptions,
-                    selectedIDs: store.selectedStylistFocusIDs,
-                    onTap: { id in
-                        store.send(.stylistFocusOptionTapped(id))
-                    }
+                    options: store.currentOptions.compactMap { $0.toStylistFocusOption() },
+                    selectedIDs: store.selectedOptionIDs,
+                    onTap: { id in store.send(.optionTapped(id)) }
                 )
             case .style:
                 StyleGridView(
-                    options: store.styleOptions,
-                    selectedID: store.selectedStyleID,
-                    onTap: { id in
-                        store.send(.styleOptionTapped(id))
-                    }
+                    options: store.currentOptions.compactMap { $0.toStyleOption() },
+                    selectedIDs: store.selectedOptionIDs,
+                    onTap: { id in store.send(.optionTapped(id)) }
                 )
             case .colors:
                 ColorGridView(
-                    options: store.colorOptions,
-                    selectedIDs: store.selectedColorIDs,
-                    onTap: { id in
-                        store.send(.colorOptionTapped(id))
-                    }
+                    options: store.currentOptions.compactMap { $0.toColorOption() },
+                    selectedIDs: store.selectedOptionIDs,
+                    onTap: { id in store.send(.optionTapped(id)) }
                 )
             }
         }

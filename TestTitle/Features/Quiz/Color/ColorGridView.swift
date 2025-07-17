@@ -40,4 +40,3 @@ struct ColorGridView: View {
         }
     }
 }
-
