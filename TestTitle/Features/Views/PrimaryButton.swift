@@ -33,37 +33,48 @@ struct PrimaryButton: View {
     let title: String
     let buttonType: PrimaryButtonType
     let isEnabled: Bool
+    let isLoading: Bool
     let action: () -> Void
-
+    
     init(
         title: String,
         buttonType: PrimaryButtonType,
         isEnabled: Bool = true,
+        isLoading: Bool = false,
         action: @escaping () -> Void
     ) {
         self.title = title
         self.buttonType = buttonType
         self.isEnabled = isEnabled
+        self.isLoading = isLoading
         self.action = action
     }
-
+    
     var body: some View {
         Button {
-            if isEnabled {
+            if isEnabled && !isLoading {
                 action()
             }
         } label: {
-            Text(title.uppercased())
-                .font(.poppins(size: 14, weight: .regular))
-                .foregroundStyle(buttonType.titleColor)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(
-                    (isEnabled ? buttonType.backgroundColor : .gray.opacity(0.8))
-                        .cornerRadius(4)
-                )
-                .contentShape(Rectangle())
+            ZStack {
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: buttonType.titleColor))
+                        .scaleEffect(0.8)
+                } else {
+                    Text(title.uppercased())
+                        .font(.poppins(size: 14, weight: .regular))
+                        .foregroundStyle(buttonType.titleColor)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                (isEnabled ? buttonType.backgroundColor : .gray.opacity(0.8))
+                    .cornerRadius(4)
+            )
+            .contentShape(Rectangle())
         }
-        .buttonStyle(PrimaryButtonStyle(isEnabled: isEnabled))
+        .buttonStyle(PrimaryButtonStyle(isEnabled: isEnabled && !isLoading))
     }
 }
 
@@ -71,7 +82,7 @@ struct PrimaryButtonStyle: ButtonStyle {
     let pressedScale: CGFloat
     let animationDuration: CGFloat
     let isEnabled: Bool
-
+    
     public init(
         pressedScale: CGFloat = 0.95,
         animationDuration: CGFloat = 0.15,
@@ -81,7 +92,7 @@ struct PrimaryButtonStyle: ButtonStyle {
         self.animationDuration = animationDuration
         self.isEnabled = isEnabled
     }
-
+    
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed && isEnabled ? pressedScale : 1.0)
