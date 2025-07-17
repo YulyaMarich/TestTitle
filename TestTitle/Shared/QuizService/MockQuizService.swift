@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 final class MockQuizServiceImpl: QuizService {
     func fetchQuiz() async throws -> [QuizStep] {
         try await Task.sleep(nanoseconds: 500_000_000)

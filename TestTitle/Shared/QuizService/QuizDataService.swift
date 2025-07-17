@@ -41,7 +41,6 @@ final class QuizServiceImpl: QuizService {
 }
 
 enum QuizServiceError: Error {
-    case invalidData
     case invalidEncoding
     case decoding(Error)
 }

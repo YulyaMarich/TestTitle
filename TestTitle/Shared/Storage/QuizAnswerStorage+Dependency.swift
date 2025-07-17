@@ -5,7 +5,6 @@
 //  Created by Yuliia Marych on 17.07.2025.
 //
 
-import Foundation
 import Dependencies
 
 private enum QuizAnswerStorageKey: DependencyKey {
