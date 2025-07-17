@@ -48,6 +48,8 @@ struct IntroView: View {
                         PrimaryButton(
                             title: "Take a quiz",
                             buttonType: .light,
+                            isEnabled: !store.isLoading,
+                            isLoading: store.isLoading,
                             action: {
                                 store.send(.takeQuizTapped)
                             }
