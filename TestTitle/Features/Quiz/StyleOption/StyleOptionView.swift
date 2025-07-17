@@ -26,7 +26,7 @@ struct StyleOptionView: View {
                             case .success(let image):
                                 image
                                     .resizable()
-                                    .scaledToFill()
+                                    .scaledToFit()
                                     .frame(width: geo.size.width, height: geo.size.height)
                                     .clipped()
                                 

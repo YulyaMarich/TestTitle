@@ -54,6 +54,7 @@ struct IntroFeature {
                 state.quizSteps = steps
                 state.path.append(.quiz(.init(quizSteps: steps)))
                 return .none
+                
             case let .quizLoaded(.failure(error)):
                 state.isLoading = false
                 print("❌ Failed to load quiz: \(error)")
@@ -89,6 +90,7 @@ struct IntroFeature {
                 
             case .path:
                 return .none
+                
             case .alert(_):
                 return .none
             }

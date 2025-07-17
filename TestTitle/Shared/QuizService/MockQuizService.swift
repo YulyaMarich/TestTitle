@@ -35,12 +35,12 @@ final class MockQuizServiceImpl: QuizService {
                 title: "Which style best represents you?",
                 subtitle: nil,
                 options: [
-                    QuizOption(id: 1, title: "CASUAL", subtitle: nil, imageUrl: "https://yourcdn.com/casual.png", hex: nil),
-                    QuizOption(id: 2, title: "BOHO", subtitle: nil, imageUrl: "https://yourcdn.com/boho.png", hex: nil),
-                    QuizOption(id: 3, title: "CLASSY", subtitle: nil, imageUrl: "https://yourcdn.com/classy.png", hex: nil),
-                    QuizOption(id: 4, title: "LADYLIKE", subtitle: nil, imageUrl: "https://yourcdn.com/ladylike.png", hex: nil),
-                    QuizOption(id: 5, title: "URBAN", subtitle: nil, imageUrl: "https://yourcdn.com/urban.png", hex: nil),
-                    QuizOption(id: 6, title: "SPORTY", subtitle: nil, imageUrl: "https://yourcdn.com/sporty.png", hex: nil)
+                    QuizOption(id: 1, title: "CASUAL", subtitle: nil, imageUrl: "https://i.ibb.co/8y2hBBw/Rectangle-4337-2x.png", hex: nil),
+                    QuizOption(id: 2, title: "BOHO", subtitle: nil, imageUrl: "https://i.ibb.co/MDV2KsgF/Rectangle-4337-2x.png", hex: nil),
+                    QuizOption(id: 3, title: "CLASSY", subtitle: nil, imageUrl: "https://i.ibb.co/Qv80xFKG/Rectangle-4337-2x.png", hex: nil),
+                    QuizOption(id: 4, title: "LADYLIKE", subtitle: nil, imageUrl: "https://i.ibb.co/MDV2KsgF/Rectangle-4337-2x.png", hex: nil),
+                    QuizOption(id: 5, title: "URBAN", subtitle: nil, imageUrl: "https://i.ibb.co/Yq363LL/Rectangle-4337-2x.png", hex: nil),
+                    QuizOption(id: 6, title: "SPORTY", subtitle: nil, imageUrl: "https://i.ibb.co/RkqdnGzy/Rectangle-4337-2x.png", hex: nil)
                 ]
             ),
             QuizStep(

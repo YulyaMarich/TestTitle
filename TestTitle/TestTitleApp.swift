@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 @main
 struct TestTitleApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             IntroView(store: Store(initialState: IntroFeature.State(), reducer: { IntroFeature() }))

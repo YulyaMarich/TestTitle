@@ -8,7 +8,7 @@
 import Dependencies
 
 enum QuizServiceKey: DependencyKey {
-    static var liveValue: QuizService = MockQuizServiceImpl()
+    static var liveValue: QuizService = QuizServiceImpl()
     static var testValue: QuizService = MockQuizServiceImpl()
     static var previewValue: QuizService = MockQuizServiceImpl()
 }
