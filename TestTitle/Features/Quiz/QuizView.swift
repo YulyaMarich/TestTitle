@@ -56,9 +56,11 @@ struct QuizView: View {
                         Button(action: {
                             store.send(.backTapped)
                         }) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(.black)
+                            Image("chevronLeft")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(.surfaceAccent)
                         }
                     }
                 }
