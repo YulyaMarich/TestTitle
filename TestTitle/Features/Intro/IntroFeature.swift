@@ -12,12 +12,18 @@ import ComposableArchitecture
 struct IntroFeature {
     @ObservableState
     struct State {
+        // MARK: - Navigation
         var path = StackState<Path.State>()
+        
+        // MARK: - Data
         var quizSteps: [QuizStep] = []
+        
+        // MARK: - UI State
         var isLoading: Bool = false
         var alert: AlertState<Action.Alert>?
     }
     
+    // MARK: - Actions
     enum Action {
         case takeQuizTapped
         case path(StackAction<Path.State, Path.Action>)
@@ -27,8 +33,10 @@ struct IntroFeature {
         enum Alert {}
     }
     
+    // MARK: - Dependencies
     @Dependency(\.quizService) var quizService
     
+    // MARK: - Reducer
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -68,7 +76,7 @@ struct IntroFeature {
                     TextState("Something went wrong while loading the quiz.")
                 }
                 return .none
-
+                
             case let .path(.element(id: _, action: .quiz(.goToNextStep(steps, currentIndex)))):
                 if currentIndex + 1 < steps.count {
                     state.path.append(
@@ -100,6 +108,7 @@ struct IntroFeature {
     }
 }
 
+// MARK: - Navigation Path
 extension IntroFeature {
     @Reducer(state: .equatable)
     enum Path {
