@@ -68,7 +68,7 @@ struct IntroView: View {
                     }
                 }
             }
-            
+            .alert($store.scope(state: \.alert, action: \.alert))
         }
     }
     

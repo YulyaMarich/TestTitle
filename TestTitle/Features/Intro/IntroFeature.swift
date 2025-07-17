@@ -11,16 +11,20 @@ import ComposableArchitecture
 @Reducer
 struct IntroFeature {
     @ObservableState
-    struct State: Equatable {
+    struct State {
         var path = StackState<Path.State>()
         var quizSteps: [QuizStep] = []
         var isLoading: Bool = false
+        var alert: AlertState<Action.Alert>?
     }
     
     enum Action {
         case takeQuizTapped
         case path(StackAction<Path.State, Path.Action>)
         case quizLoaded(TaskResult<[QuizStep]>)
+        case alert(PresentationAction<Alert>)
+        
+        enum Alert {}
     }
     
     @Dependency(\.quizService) var quizService
@@ -53,8 +57,17 @@ struct IntroFeature {
             case let .quizLoaded(.failure(error)):
                 state.isLoading = false
                 print("❌ Failed to load quiz: \(error)")
+                state.alert = AlertState {
+                    TextState("Oops")
+                } actions: {
+                    ButtonState(role: .cancel) {
+                        TextState("OK")
+                    }
+                } message: {
+                    TextState("Something went wrong while loading the quiz.")
+                }
                 return .none
-                
+
             case let .path(.element(id: _, action: .quiz(.goToNextStep(steps, currentIndex)))):
                 if currentIndex + 1 < steps.count {
                     state.path.append(
@@ -76,9 +89,12 @@ struct IntroFeature {
                 
             case .path:
                 return .none
+            case .alert(_):
+                return .none
             }
         }
         .forEach(\.path, action: \.path)
+        .ifLet(\.alert, action: \.alert)
     }
 }
 
