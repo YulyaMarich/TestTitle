@@ -8,6 +8,19 @@
 import SwiftUI
 import ComposableArchitecture
 
+struct QuizUIConfiguration {
+    static let horizontalPadding: CGFloat = 20
+    static let bottomPadding: CGFloat = 10
+    static let headerBottomPadding: CGFloat = 24
+    static let buttonHeight: CGFloat = 48
+    static let buttonBottomPadding: CGFloat = 22
+    static let toolbarFontSize: CGFloat = 15
+    static let chevronSize: CGFloat = 24
+    static let titleFontSize: CGFloat = 26
+    static let subtitleFontSize: CGFloat = 14
+    static let headerSpacing: CGFloat = 8
+}
+
 struct QuizView: View {
     @ComposableArchitecture.Bindable var store: StoreOf<QuizFeature>
     
@@ -17,13 +30,13 @@ struct QuizView: View {
                 ScrollView {
                     VStack {
                         header
-                            .padding(.bottom, 24)
+                            .padding(.bottom, QuizUIConfiguration.headerBottomPadding)
                         Spacer()
                         content
                         Spacer()
                     }
-                    .padding(.bottom, 10)
-                    .padding(.horizontal, 20)
+                    .padding(.bottom, QuizUIConfiguration.bottomPadding)
+                    .padding(.horizontal, QuizUIConfiguration.horizontalPadding)
                 }
                 .scrollIndicators(.hidden)
                 
@@ -38,16 +51,16 @@ struct QuizView: View {
                         : .nextTapped
                     )
                 }
-                .frame(height: 48)
-                .padding(.horizontal, 20)
-                .padding(.bottom, 22)
+                .frame(height: QuizUIConfiguration.buttonHeight)
+                .padding(.horizontal, QuizUIConfiguration.horizontalPadding)
+                .padding(.bottom, QuizUIConfiguration.buttonBottomPadding)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("STYLE PREFERENCES")
-                        .font(.poppins(size: 15, weight: .medium))
+                        .font(.poppins(size: QuizUIConfiguration.toolbarFontSize, weight: .medium))
                         .foregroundColor(.black)
                 }
                 
@@ -59,7 +72,7 @@ struct QuizView: View {
                             Image("chevronLeft")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 24, height: 24)
+                                .frame(width: QuizUIConfiguration.chevronSize, height: QuizUIConfiguration.chevronSize)
                                 .foregroundColor(.surfaceAccent)
                         }
                     }
@@ -70,14 +83,14 @@ struct QuizView: View {
     
     private var header: some View {
         let metadata = store.stepMetadata[store.step]
-        return VStack(alignment: .leading, spacing: 8) {
+        return VStack(alignment: .leading, spacing: QuizUIConfiguration.headerSpacing) {
             if let title = metadata?.title {
                 Text(title)
-                    .font(.kaiseiTokumin(size: 26))
+                    .font(.kaiseiTokumin(size: QuizUIConfiguration.titleFontSize))
             }
             if let subtitle = metadata?.subtitle {
                 Text(subtitle)
-                    .font(.poppins(size: 14, weight: .light))
+                    .font(.poppins(size: QuizUIConfiguration.subtitleFontSize, weight: .light))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

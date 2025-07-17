@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+struct ColorGridUIConfiguration {
+    static let spacing: CGFloat = 12
+}
+
 struct ColorOption: Identifiable, Equatable {
     let id: String
     let title: String
@@ -19,13 +23,13 @@ struct ColorGridView: View {
     let onTap: (String) -> Void
     
     private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: ColorGridUIConfiguration.spacing),
+        GridItem(.flexible(), spacing: ColorGridUIConfiguration.spacing),
+        GridItem(.flexible(), spacing: ColorGridUIConfiguration.spacing),
     ]
     
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
+        LazyVGrid(columns: columns, spacing: ColorGridUIConfiguration.spacing) {
             ForEach(options) { option in
                 ColorOptionView(
                     color: option.color,

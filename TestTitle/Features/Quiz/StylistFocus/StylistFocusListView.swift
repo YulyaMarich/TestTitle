@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+struct StylistFocusUIConfiguration {
+    static let spacing: CGFloat = 12
+}
+
 struct StylistFocusOption: Identifiable, Equatable {
     let id: String
     let title: String
@@ -19,7 +23,7 @@ struct StylistFocusListView: View {
     let onTap: (String) -> Void
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: StylistFocusUIConfiguration.spacing) {
             ForEach(options) { option in
                 StylistFocusOptionView(
                     isSelected: selectedIDs.contains(option.id),

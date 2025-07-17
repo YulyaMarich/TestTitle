@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+struct CheckBoxUIConfiguration {
+    static let strokeWidth: CGFloat = 1
+    static let checkmarkSize: CGFloat = 14
+    static let animationDuration: Double = 0.2
+}
+
 struct CheckBoxView: View {
     let isChecked: Bool
     let onTap: () -> Void
@@ -15,20 +21,19 @@ struct CheckBoxView: View {
         ZStack {
             Rectangle()
                 .fill(isChecked ? Color.surfaceAccent : Color.clear)
-                .overlay(
-                    Rectangle()
-                        .stroke(isChecked ? Color.surfaceAccent : Color.strokeSeparator, lineWidth: 1)
+                .overlay(Rectangle()
+                    .stroke(isChecked ? Color.surfaceAccent : Color.strokeSeparator, lineWidth: CheckBoxUIConfiguration.strokeWidth)
                 )
             
             if isChecked {
                 Image("checkmark")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 14, height: 14)
-                    .animation(.easeInOut(duration: 0.2), value: isChecked)
+                    .frame(width: CheckBoxUIConfiguration.checkmarkSize, height: CheckBoxUIConfiguration.checkmarkSize)
+                    .animation(.easeInOut(duration: CheckBoxUIConfiguration.animationDuration), value: isChecked)
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: isChecked)
+        .animation(.easeInOut(duration: CheckBoxUIConfiguration.animationDuration), value: isChecked)
         .contentShape(Rectangle())
         .onTapGesture {
             withAnimation {

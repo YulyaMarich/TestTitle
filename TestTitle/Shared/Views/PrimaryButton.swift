@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+struct PrimaryButtonUIConfiguration {
+    static let fontSize: CGFloat = 14
+    static let cornerRadius: CGFloat = 4
+    static let disabledOpacity: Double = 0.8
+    static let progressViewScale: CGFloat = 0.8
+    static let pressedScale: CGFloat = 0.95
+    static let animationDuration: CGFloat = 0.15
+}
+
 enum PrimaryButtonType {
     case light, dark
     
@@ -60,17 +69,17 @@ struct PrimaryButton: View {
                 if isLoading {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: buttonType.titleColor))
-                        .scaleEffect(0.8)
+                        .scaleEffect(PrimaryButtonUIConfiguration.progressViewScale)
                 } else {
                     Text(title.uppercased())
-                        .font(.poppins(size: 14, weight: .regular))
+                        .font(.poppins(size: PrimaryButtonUIConfiguration.fontSize, weight: .regular))
                         .foregroundStyle(buttonType.titleColor)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
-                (isEnabled ? buttonType.backgroundColor : .gray.opacity(0.8))
-                    .cornerRadius(4)
+                (isEnabled ? buttonType.backgroundColor : .gray.opacity(PrimaryButtonUIConfiguration.disabledOpacity))
+                    .cornerRadius(PrimaryButtonUIConfiguration.cornerRadius)
             )
             .contentShape(Rectangle())
         }
@@ -84,8 +93,8 @@ struct PrimaryButtonStyle: ButtonStyle {
     let isEnabled: Bool
     
     public init(
-        pressedScale: CGFloat = 0.95,
-        animationDuration: CGFloat = 0.15,
+        pressedScale: CGFloat = PrimaryButtonUIConfiguration.pressedScale,
+        animationDuration: CGFloat = PrimaryButtonUIConfiguration.animationDuration,
         isEnabled: Bool = true
     ) {
         self.pressedScale = pressedScale

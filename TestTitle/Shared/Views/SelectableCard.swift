@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+struct SelectableCardUIConfiguration {
+    static let cornerRadius: CGFloat = 0
+    static let strokeWidth: CGFloat = 0.5
+    static let animationDuration: Double = 0.2
+}
+
 struct SelectableCard<Content: View>: View {
     var isSelected: Bool
     let content: () -> Content
@@ -16,10 +22,10 @@ struct SelectableCard<Content: View>: View {
         content()
             .frame(maxWidth: .infinity, alignment: .center)
             .overlay(
-                RoundedRectangle(cornerRadius: 0)
-                    .stroke(isSelected ? Color.strokePrimary : Color.strokeSecondary, lineWidth: 0.5)
+                RoundedRectangle(cornerRadius: SelectableCardUIConfiguration.cornerRadius)
+                    .stroke(isSelected ? Color.strokePrimary : Color.strokeSecondary, lineWidth: SelectableCardUIConfiguration.strokeWidth)
             )
-            .animation(.easeInOut(duration: 0.2), value: isSelected)
+            .animation(.easeInOut(duration: SelectableCardUIConfiguration.animationDuration), value: isSelected)
             .contentShape(Rectangle())
             .onTapGesture {
                 withAnimation {

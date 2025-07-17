@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+struct StyleGridUIConfiguration {
+    static let spacing: CGFloat = 12
+    static let height: CGFloat = 162
+}
+
 struct StyleOption: Identifiable, Equatable {
     let id: String
     let title: String
@@ -19,12 +24,12 @@ struct StyleGridView: View {
     let onTap: (String) -> Void
     
     private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
+        GridItem(.flexible(), spacing: StyleGridUIConfiguration.spacing),
+        GridItem(.flexible(), spacing: StyleGridUIConfiguration.spacing)
     ]
     
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
+        LazyVGrid(columns: columns, spacing: StyleGridUIConfiguration.spacing) {
             ForEach(options) { option in
                 StyleOptionView(
                     isSelected: selectedIDs.contains(option.id),
@@ -35,7 +40,7 @@ struct StyleGridView: View {
                     }
                 )
             }
-            .frame(height: 162)
+            .frame(height: StyleGridUIConfiguration.height)
         }
     }
 }

@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+struct StylistFocusOptionUIConfiguration {
+    static let hStackSpacing: CGFloat = 15
+    static let vStackSpacing: CGFloat = 8
+    static let horizontalPadding: CGFloat = 16
+    static let verticalPadding: CGFloat = 15
+    static let height: CGFloat = 72
+    static let checkboxSize: CGFloat = 20
+    static let titleFontSize: CGFloat = 13
+    static let subtitleFontSize: CGFloat = 12
+    static let minimumScaleFactor: CGFloat = 0.01
+}
+
 struct StylistFocusOptionView: View {
     var isSelected: Bool
     var title: String
@@ -15,14 +27,14 @@ struct StylistFocusOptionView: View {
     
     var body: some View {
         SelectableCard(isSelected: isSelected) {
-            HStack(spacing: 15) {
-                VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: StylistFocusOptionUIConfiguration.hStackSpacing) {
+                VStack(alignment: .leading, spacing: StylistFocusOptionUIConfiguration.vStackSpacing) {
                     Text(title.uppercased())
-                        .font(.poppins(size: 13, weight: .medium))
+                        .font(.poppins(size: StylistFocusOptionUIConfiguration.titleFontSize, weight: .medium))
                     
                     Text(subtitle.uppercased())
-                        .font(.poppins(size: 12))
-                        .minimumScaleFactor(0.01)
+                        .font(.poppins(size: StylistFocusOptionUIConfiguration.subtitleFontSize))
+                        .minimumScaleFactor(StylistFocusOptionUIConfiguration.minimumScaleFactor)
                         .lineLimit(1)
                         .layoutPriority(1)
                 }
@@ -32,11 +44,11 @@ struct StylistFocusOptionView: View {
                 CheckBoxView(isChecked: isSelected) {
                     onTap()
                 }
-                .frame(width: 20, height: 20)
+                .frame(width: StylistFocusOptionUIConfiguration.checkboxSize, height: StylistFocusOptionUIConfiguration.checkboxSize)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 15)
-            .frame(height: 72)
+            .padding(.horizontal, StylistFocusOptionUIConfiguration.horizontalPadding)
+            .padding(.vertical, StylistFocusOptionUIConfiguration.verticalPadding)
+            .frame(height: StylistFocusOptionUIConfiguration.height)
         } onTap: {
             onTap()
         }

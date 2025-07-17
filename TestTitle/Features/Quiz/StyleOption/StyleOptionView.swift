@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+struct StyleOptionUIConfiguration {
+    static let vStackSpacing: CGFloat = 4
+    static let padding: CGFloat = 8
+    static let checkboxSize: CGFloat = 20
+    static let titleFontSize: CGFloat = 13
+}
+
 struct StyleOptionView: View {
     var isSelected: Bool
     var imageURL: URL?
@@ -15,7 +22,7 @@ struct StyleOptionView: View {
     
     var body: some View {
         SelectableCard(isSelected: isSelected) {
-            VStack(spacing: 4) {
+            VStack(spacing: StyleOptionUIConfiguration.vStackSpacing) {
                 GeometryReader { geo in
                     ZStack(alignment: .topTrailing) {
                         AsyncImage(url: imageURL) { phase in
@@ -41,16 +48,16 @@ struct StyleOptionView: View {
                         CheckBoxView(isChecked: isSelected) {
                             onTap()
                         }
-                        .frame(width: 20, height: 20)
+                        .frame(width: StyleOptionUIConfiguration.checkboxSize, height: StyleOptionUIConfiguration.checkboxSize)
                     }
                 }
                 
                 Text(title.uppercased())
-                    .font(.poppins(size: 13, weight: isSelected ? .medium : .light))
+                    .font(.poppins(size: StyleOptionUIConfiguration.titleFontSize, weight: isSelected ? .medium : .light))
                     .foregroundColor(.textPrimary)
                     .multilineTextAlignment(.center)
             }
-            .padding(8)
+            .padding(StyleOptionUIConfiguration.padding)
         } onTap: {
             onTap()
         }
