@@ -52,7 +52,6 @@ struct QuizOption: Decodable, Identifiable, Equatable {
         if let imageUrl, let url = URL(string: imageUrl) {
             return StyleOption(id: id, title: title, imageURL: url)
         } else {
-            print("❌ Invalid URL: \(imageUrl ?? "nil")")
             return nil
         }
     }

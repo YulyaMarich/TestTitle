@@ -55,7 +55,6 @@ struct IntroFeature {
                 
             case let .quizLoaded(.success(steps)):
                 guard !steps.isEmpty else {
-                    print("⚠️ Quiz steps is empty.")
                     return .none
                 }
                 state.isLoading = false
@@ -63,9 +62,8 @@ struct IntroFeature {
                 state.path.append(.quiz(.init(quizSteps: steps)))
                 return .none
                 
-            case let .quizLoaded(.failure(error)):
+            case .quizLoaded(.failure(_)):
                 state.isLoading = false
-                print("❌ Failed to load quiz: \(error)")
                 state.alert = AlertState {
                     TextState("Oops")
                 } actions: {
@@ -94,6 +92,7 @@ struct IntroFeature {
                 
             case .path(.element(id: _, action: .quiz(.finishTapped))):
                 state.path.removeAll()
+                state.quizSteps = []
                 return .none
                 
             case .path:
