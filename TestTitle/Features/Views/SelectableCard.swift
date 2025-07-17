@@ -17,7 +17,7 @@ struct SelectableCard<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .center)
             .overlay(
                 RoundedRectangle(cornerRadius: 0)
-                    .stroke(isSelected ? Color.strokePrimary : Color.strokeSecondary, lineWidth: 1)
+                    .stroke(isSelected ? Color.strokePrimary : Color.strokeSecondary, lineWidth: 0.5)
             )
             .animation(.easeInOut(duration: 0.2), value: isSelected)
             .contentShape(Rectangle())
