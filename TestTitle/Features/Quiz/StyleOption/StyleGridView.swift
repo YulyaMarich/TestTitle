@@ -10,7 +10,7 @@ import SwiftUI
 struct StyleOption: Identifiable, Equatable {
     let id: String
     let title: String
-    let image: UIImage
+    let imageURL: URL?
 }
 
 struct StyleGridView: View {
@@ -28,7 +28,7 @@ struct StyleGridView: View {
             ForEach(options) { option in
                 StyleOptionView(
                     isSelected: option.id == selectedID,
-                    image: option.image,
+                    imageURL: option.imageURL,
                     title: option.title,
                     onTap: {
                         onTap(option.id)
