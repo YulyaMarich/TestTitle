@@ -22,7 +22,7 @@ struct QuizUIConfiguration {
 }
 
 struct QuizView: View {
-    @ComposableArchitecture.Bindable var store: StoreOf<QuizFeature>
+    @Perception.Bindable var store: StoreOf<QuizFeature>
     
     var body: some View {
         WithPerceptionTracking {

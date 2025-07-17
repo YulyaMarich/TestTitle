@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct IntroUIConfiguration {
     static let horizontalPadding: CGFloat = 20
     static let bottomTextPadding: CGFloat = 61
-    static let bottomButtonPadding: CGFloat = 62
+    static let bottomButtonPadding: CGFloat = 72
     static let buttonHeight: CGFloat = 42
     
     static let gradientStops: [Gradient.Stop] = [
