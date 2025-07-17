@@ -67,9 +67,13 @@ struct QuizFeature {
         init(quizSteps: [QuizStep], currentStepIndex: Int = 0) {
             self.quizSteps = quizSteps
             self.currentStepIndex = currentStepIndex
-            self.stepMetadata = Dictionary(uniqueKeysWithValues: quizSteps.map {
-                ($0.viewStep, QuizStepMetadata(title: $0.title, subtitle: $0.subtitle))
-            })
+            
+            self.stepMetadata = quizSteps.reduce(into: [:]) { dict, step in
+                let key = step.viewStep
+                if dict[key] == nil {
+                    dict[key] = QuizStepMetadata(title: step.title, subtitle: step.subtitle)
+                }
+            }
             
             if let step = quizSteps[safe: currentStepIndex] {
                 self.currentOptions = step.options
