@@ -55,6 +55,10 @@ struct QuizView: View {
                 .padding(.horizontal, QuizUIConfiguration.horizontalPadding)
                 .padding(.bottom, QuizUIConfiguration.buttonBottomPadding)
             }
+            .background {
+                Color.white
+                    .ignoresSafeArea()
+            }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbar {
@@ -87,10 +91,12 @@ struct QuizView: View {
             if let title = metadata?.title {
                 Text(title)
                     .font(.kaiseiTokumin(size: QuizUIConfiguration.titleFontSize))
+                    .foregroundColor(.textPrimary)
             }
             if let subtitle = metadata?.subtitle {
                 Text(subtitle)
                     .font(.poppins(size: QuizUIConfiguration.subtitleFontSize, weight: .light))
+                    .foregroundColor(.textPrimary)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

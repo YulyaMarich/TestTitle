@@ -31,9 +31,11 @@ struct StylistFocusOptionView: View {
                 VStack(alignment: .leading, spacing: StylistFocusOptionUIConfiguration.vStackSpacing) {
                     Text(title.uppercased())
                         .font(.poppins(size: StylistFocusOptionUIConfiguration.titleFontSize, weight: .medium))
+                        .foregroundColor(.textPrimary)
                     
                     Text(subtitle.uppercased())
                         .font(.poppins(size: StylistFocusOptionUIConfiguration.subtitleFontSize))
+                        .foregroundColor(.textPrimary)
                         .minimumScaleFactor(StylistFocusOptionUIConfiguration.minimumScaleFactor)
                         .lineLimit(1)
                         .layoutPriority(1)
