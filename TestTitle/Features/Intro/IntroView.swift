@@ -10,8 +10,8 @@ import ComposableArchitecture
 
 struct IntroUIConfiguration {
     static let horizontalPadding: CGFloat = 20
-    static let bottomTextPadding: CGFloat = 61
-    static let bottomButtonPadding: CGFloat = 72
+    static let bottomButtonPadding: CGFloat = 28
+    static let textButtonVerticaSpacing: CGFloat = 61
     static let buttonHeight: CGFloat = 42
     
     static let gradientStops: [Gradient.Stop] = [
@@ -28,22 +28,15 @@ struct IntroView: View {
     var body: some View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-                ZStack {
-                    Image("introBackground")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                        .overlay(backgroundGradient)
+                VStack(spacing: 0) {
+                    Spacer()
                     
-                    VStack {
-                        Spacer()
-                        
+                    VStack(spacing: IntroUIConfiguration.textButtonVerticaSpacing) {
                         Text("Online Personal \nStyling. \nOutfits for \nEvery Woman.")
                             .multilineTextAlignment(.leading)
                             .font(.kaiseiTokumin(size: IntroUIConfiguration.titleFontSize))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .foregroundColor(.white)
-                            .padding(.bottom, IntroUIConfiguration.bottomTextPadding)
                         
                         PrimaryButton(
                             title: "Take a quiz",
@@ -55,10 +48,16 @@ struct IntroView: View {
                             }
                         )
                         .frame(height: IntroUIConfiguration.buttonHeight)
-                        .padding(.bottom, IntroUIConfiguration.bottomButtonPadding)
-                        
                     }
-                    .padding(.horizontal, IntroUIConfiguration.horizontalPadding)
+                    .padding(.bottom, IntroUIConfiguration.bottomButtonPadding)
+                }
+                .padding(.horizontal, IntroUIConfiguration.horizontalPadding)
+                .background {
+                    Image("introBackground")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .overlay(backgroundGradient)
                 }
             } destination: { store in
                 switch store.case {
