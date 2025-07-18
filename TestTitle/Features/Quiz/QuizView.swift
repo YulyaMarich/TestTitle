@@ -24,6 +24,18 @@ struct QuizUIConfiguration {
 struct QuizView: View {
     @Perception.Bindable var store: StoreOf<QuizFeature>
     
+    init(store: StoreOf<QuizFeature>) {
+        self._store = Bindable(store)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var body: some View {
         WithPerceptionTracking {
             VStack(spacing: 0) {

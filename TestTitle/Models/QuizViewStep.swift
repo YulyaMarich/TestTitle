@@ -7,10 +7,8 @@
 
 import Foundation
 
-enum QuizViewStep: Equatable, Identifiable {
+enum QuizViewStep: Equatable {
     case stylistFocus
     case style
     case colors
-    
-    var id: Self { self }
 }

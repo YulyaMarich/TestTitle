@@ -52,6 +52,7 @@ struct IntroView: View {
                     .padding(.bottom, IntroUIConfiguration.bottomButtonPadding)
                 }
                 .padding(.horizontal, IntroUIConfiguration.horizontalPadding)
+                .navigationBarHidden(true)
                 .background {
                     Image("introBackground")
                         .resizable()
@@ -60,10 +61,12 @@ struct IntroView: View {
                         .overlay(backgroundGradient)
                 }
             } destination: { store in
-                switch store.case {
-                case .quiz:
-                    if let store = store.scope(state: \.quiz, action: \.quiz) {
-                        QuizView(store: store)
+                WithPerceptionTracking {
+                    switch store.case {
+                    case .quiz:
+                        if let store = store.scope(state: \.quiz, action: \.quiz) {
+                            QuizView(store: store)
+                        }
                     }
                 }
             }
